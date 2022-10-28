@@ -9,6 +9,11 @@ import UIKit
 import Network
 
 class ViewController: UIViewController {
+    private var internetStatusLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        return label
+    }()
     var date = Date()
     var timer = Timer()
     private var networkManager = NetworkManager()
@@ -18,6 +23,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -54,6 +60,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = internetStatusLabel
+        label.text = "No Internet connection"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if profiles.count > 0 {
+            return 0
+        } else {
+            return view.bounds.height/2 + 100
+        }
+        //return profiles.count > 0 ? 0 : view.bounds.height/2 + 100
+    }
 }
 
 
@@ -68,16 +91,17 @@ extension ViewController {
     
     private func setupMonitor() {
         if NetworkMonitor.shared.isConnected {
-           // label.text = "Connected"
+           print("Connected")
         } else {
-           // label.text = "DISCONNECTED"
+            self.alert(name: "Attention!", message: "There is no internet connection")
+            internetStatusLabel.textColor = .systemGray
         }
     }
           
     @objc func checkConnection() {
         print("Checked!")
         if !NetworkMonitor.shared.isConnected {
-           // label.text = "Lost connection!"
+           print("Lost connection!")
         } else {
            // label.text = "Connected"
         }

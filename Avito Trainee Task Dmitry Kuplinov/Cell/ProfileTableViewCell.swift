@@ -8,8 +8,6 @@
 import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
-
-    //var profile = Profile()
     
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var numberLabel: UILabel!
@@ -18,9 +16,7 @@ class ProfileTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         view.layer.cornerRadius = 10
-        
         super.awakeFromNib()
-        
     }
     
     func setupCell(profile: Profile) {
@@ -37,6 +33,8 @@ class ProfileTableViewCell: UITableViewCell {
         for i in strings {
             skillsString = skillsString + i + ", "
         }
+        skillsString.removeLast()
+        skillsString.removeLast()
         return skillsString
     }
     
