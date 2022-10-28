@@ -27,45 +27,23 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.isHidden = true
+        activityIndicator.hidesWhenStopped = true
         
-        activityIndicator.isHidden = true //скрыли индикатор
-        activityIndicator.hidesWhenStopped = true //скрываем индикатор если его стопят
-        
-        self.tableView.contentInset = UIEdgeInsets(top: -17, left: 0, bottom: 0, right: 0)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
-        let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "Cell")
-        tableView.separatorStyle = .none
-        
+        // methods
+        setupTableView()
         loadProfiles()
-
-        time()
-        setupMonitor()
+        setupNetworkingMonitor()
         checkingInternetConnection()
         setupActivityIndicator()
+        time()
+        //loadSavedTime()
     }
     
-    private func setupActivityIndicator() {
-        activityIndicator.style = .medium
-        activityIndicator.color = .systemGray
-        activityIndicator.center = self.view.center
-        view.addSubview(activityIndicator)
-    }
-    private func loadProfiles() {
-        activityIndicator.isHidden = false // вернули индикатор
-        activityIndicator.startAnimating() // стали крутить индикатор
-        networkManager.performRequest { response in
-            self.profiles = response
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
-            }
-        }
-    }
+    
 }
 
+//MARK: - Table view data source
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -100,14 +78,58 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - View controller extension
 
 extension ViewController {
+    
+    private func setupActivityIndicator() {
+        activityIndicator.style = .medium
+        activityIndicator.color = .systemGray
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        
+    }
+    private func loadProfiles() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        /*
+         if saved time + 60 min < current time {
+         clear user defaults (data and time point)
+         
+         networkManager.performRequest <------
+         } else {
+         load from user defaults
+         }
+         */
+        
+        networkManager.performRequest { response in
+            self.profiles = response
+            //self.saveCurrentTime(currentTime: self.date)
+            // save profiles in user defaults
+            // save time + 60 min in user defaults
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
+    private func setupTableView() {
+        self.tableView.contentInset = UIEdgeInsets(top: -17, left: 0, bottom: 0, right: 0)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
+        let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "Cell")
+        tableView.separatorStyle = .none
+    }
     
     private func checkingInternetConnection(){
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkConnection), userInfo: nil, repeats: true)
     }
     
-    private func setupMonitor() {
+    private func setupNetworkingMonitor() {
         if NetworkMonitor.shared.isConnected {
            print("Connected")
         } else {
@@ -125,17 +147,32 @@ extension ViewController {
                 internenConnectionDidLost = true
             }
         } else {
+//            if internenConnectionDidLost {
+//                tableView.reloadData()
+//            }
             internenConnectionDidLost = false
         }
     }
     
+    
     func time() {
         let now = date
-        let soon = now.addingTimeInterval(500)
+        let soon = now.addingTimeInterval(3600)
         //print("NOW \(now) \n SOON \(soon)")
         if soon > now {
-            print("TIMES UP!")
+           // print("TIMES UP!")
         }
+    }
+    
+    private func saveCurrentTime(currentTime: Date) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(currentTime, forKey: "currentTime")
+        print(currentTime)
+    }
+    
+    private func loadSavedTime() {
+        let savedTime = UserDefaults.standard.object(forKey: "currentTime") as! Date
+        print(savedTime)
     }
 }
 

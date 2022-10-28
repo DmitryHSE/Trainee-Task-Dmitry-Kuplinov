@@ -20,7 +20,6 @@ class ProfileTableViewCell: UITableViewCell {
     }
     
     func setupCell(profile: Profile) {
-        
         nameLabel.text = profile.name
         numberLabel.text = profile.number
         skillsLabel.text = skillsString(strings: profile.skills)

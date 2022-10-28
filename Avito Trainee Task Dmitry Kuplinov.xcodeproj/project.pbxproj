@@ -72,8 +72,8 @@
 			children = (
 				9FE8A99F290BEA6100AA3442 /* AppDelegate.swift */,
 				9FE8A9A1290BEA6100AA3442 /* SceneDelegate.swift */,
-				9FE8A9A3290BEA6100AA3442 /* ViewController.swift */,
-				9FE8A9BF290BF00300AA3442 /* Cell */,
+				9FE8A9C4290C1CEA00AA3442 /* Controllers */,
+				9FE8A9BF290BF00300AA3442 /* Cells */,
 				9FE8A9B3290BEA9600AA3442 /* Networking */,
 				9FE8A9BC290BEEC600AA3442 /* Support */,
 				9FE8A9A5290BEA6100AA3442 /* Main.storyboard */,
@@ -103,13 +103,21 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		9FE8A9BF290BF00300AA3442 /* Cell */ = {
+		9FE8A9BF290BF00300AA3442 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */,
 				9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */,
 			);
-			path = Cell;
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9FE8A9C4290C1CEA00AA3442 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9FE8A9A3290BEA6100AA3442 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
