@@ -9,6 +9,7 @@ import UIKit
 import Network
 
 class ViewController: UIViewController {
+    private var internenConnectionDidLost = false
     private var internetStatusLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -75,18 +76,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             return view.bounds.height/2 + 100
         }
-        //return profiles.count > 0 ? 0 : view.bounds.height/2 + 100
     }
 }
 
 
 extension ViewController {
     
-    //        label.text = "LABEL \nLABEL"
-    //        label.numberOfLines = 2
-    
     private func checkingInternetConnection(){
-        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(checkConnection), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkConnection), userInfo: nil, repeats: true)
     }
     
     private func setupMonitor() {
@@ -99,11 +96,13 @@ extension ViewController {
     }
           
     @objc func checkConnection() {
-        print("Checked!")
         if !NetworkMonitor.shared.isConnected {
-           print("Lost connection!")
+            if !internenConnectionDidLost {
+                self.alert(name: "Attention!", message: "The internet connection has been lost")
+                internenConnectionDidLost = true
+            }
         } else {
-           // label.text = "Connected"
+            internenConnectionDidLost = false
         }
     }
     
