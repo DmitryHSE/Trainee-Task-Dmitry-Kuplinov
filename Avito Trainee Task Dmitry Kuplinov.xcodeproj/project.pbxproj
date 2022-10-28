@@ -18,6 +18,8 @@
 		9FE8A9B9290BEB1400AA3442 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9B8290BEB1400AA3442 /* DataModel.swift */; };
 		9FE8A9BB290BEB4800AA3442 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9BA290BEB4800AA3442 /* ProfileModel.swift */; };
 		9FE8A9BE290BEED600AA3442 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9BD290BEED600AA3442 /* Extensions.swift */; };
+		9FE8A9C2290BF02700AA3442 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */; };
+		9FE8A9C3290BF02700AA3442 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		9FE8A9B8290BEB1400AA3442 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		9FE8A9BA290BEB4800AA3442 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		9FE8A9BD290BEED600AA3442 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				9FE8A99F290BEA6100AA3442 /* AppDelegate.swift */,
 				9FE8A9A1290BEA6100AA3442 /* SceneDelegate.swift */,
 				9FE8A9A3290BEA6100AA3442 /* ViewController.swift */,
+				9FE8A9BF290BF00300AA3442 /* Cell */,
 				9FE8A9B3290BEA9600AA3442 /* Networking */,
 				9FE8A9BC290BEEC600AA3442 /* Support */,
 				9FE8A9A5290BEA6100AA3442 /* Main.storyboard */,
@@ -96,6 +101,15 @@
 				9FE8A9BD290BEED600AA3442 /* Extensions.swift */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		9FE8A9BF290BF00300AA3442 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */,
+				9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FE8A9AC290BEA6200AA3442 /* LaunchScreen.storyboard in Resources */,
+				9FE8A9C3290BF02700AA3442 /* ProfileTableViewCell.xib in Resources */,
 				9FE8A9A9290BEA6200AA3442 /* Assets.xcassets in Resources */,
 				9FE8A9A7290BEA6100AA3442 /* Main.storyboard in Resources */,
 			);
@@ -172,6 +187,7 @@
 				9FE8A9A4290BEA6100AA3442 /* ViewController.swift in Sources */,
 				9FE8A9BB290BEB4800AA3442 /* ProfileModel.swift in Sources */,
 				9FE8A9B5290BEAC200AA3442 /* NetworkMonitor.swift in Sources */,
+				9FE8A9C2290BF02700AA3442 /* ProfileTableViewCell.swift in Sources */,
 				9FE8A9BE290BEED600AA3442 /* Extensions.swift in Sources */,
 				9FE8A9B7290BEAFE00AA3442 /* NetworkManager.swift in Sources */,
 				9FE8A9A0290BEA6100AA3442 /* AppDelegate.swift in Sources */,

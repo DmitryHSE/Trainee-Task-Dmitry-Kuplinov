@@ -8,22 +8,26 @@
 import Foundation
 
 struct Profile {
-    let name: String
-    let number: String
-    let skills: [String]
+    var name: String = ""
+    var number: String = ""
+    var skills: [String] = []
     
     init?(profile: Employee) {
-        self.name = profile.name
-        self.number = profile.phoneNumber
-        self.skills = profile.skills
+        name = profile.name
+        number = profile.phoneNumber
+        skills = profile.skills
     }
-    
+    init() {
+        
+    }
 }
 
-func sortProfilesAz(profiles: [Employee]) -> [Employee] {
+
+
+func sortProfilesFromAToZ(profiles: [Profile]) -> [Profile] {
     var initialArray = profiles
     var names = [String]()
-    var sortedProfiles = [Employee]()
+    var sortedProfiles = [Profile]()
     for (i, _) in initialArray.enumerated() {
         names.append(initialArray[i].name)
     }

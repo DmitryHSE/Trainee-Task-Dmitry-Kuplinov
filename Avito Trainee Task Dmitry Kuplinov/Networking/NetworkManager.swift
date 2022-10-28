@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager {
     
-    func performRequest(completion: @escaping([Employee]) -> Void) {
+    func performRequest(completion: @escaping([Profile]) -> Void) {
         
         let urlString = "https://run.mocky.io/v3/1d1cb4ec-73db-4762-8c4b-0b8aa3cecd4c"
         
@@ -23,6 +23,7 @@ struct NetworkManager {
                 }
                 if let safeData = data {
                     if let response = parseJson(withdData: safeData) {
+                
                         completion(response)
                         
                     }
@@ -33,16 +34,17 @@ struct NetworkManager {
         
     }
     
-    func parseJson(withdData data: Data) -> [Employee]? {
+    func parseJson(withdData data: Data) -> [Profile]? {
         let decoder = JSONDecoder()
         do {
             let jsonDecoded = try decoder.decode(DataModel.self, from: data)
-            var profiles = [Employee]()
+           // var profiles = [Employee]()
+            var profiles = [Profile]()
             for i in jsonDecoded.company.employees {
-                profiles.append(i)
+                profiles.append(Profile(profile: i)!)
             }
             
-            return sortProfilesAz(profiles: profiles) // profiles
+            return sortProfilesFromAToZ(profiles: profiles) // profiles
         } catch  {
             print("ERROR --->  ",error)
         }

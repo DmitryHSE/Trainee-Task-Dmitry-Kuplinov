@@ -12,29 +12,60 @@ class ViewController: UIViewController {
     var date = Date()
     var timer = Timer()
     private var networkManager = NetworkManager()
-    private var profiles = [Employee]()
+    private var profiles = [Profile]()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
+        let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "Cell")
+        
         networkManager.performRequest { response in
             self.profiles = response
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
             for i in self.profiles {
-                print(i)
+                //print(i)
             }
         }
-//        label.text = "LABEL \nLABEL"
-//        label.numberOfLines = 2
-        
+
         time()
         setupMonitor()
-        scheduledTimerWithTimeInterval()
+        checkingInternetConnection()
+    }
+}
+
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return profiles.count
     }
     
-    private func scheduledTimerWithTimeInterval(){
-        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell
+        cell.setupCell(profile: profiles[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+}
+
+
+extension ViewController {
+    
+    //        label.text = "LABEL \nLABEL"
+    //        label.numberOfLines = 2
+    
+    private func checkingInternetConnection(){
         timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(checkConnection), userInfo: nil, repeats: true)
     }
     
@@ -63,10 +94,6 @@ class ViewController: UIViewController {
             print("TIMES UP!")
         }
     }
-    
-
-
-
 }
 
 /*
