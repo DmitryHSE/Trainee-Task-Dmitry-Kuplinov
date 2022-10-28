@@ -15,6 +15,9 @@ class ViewController: UIViewController {
         label.textColor = .white
         return label
     }()
+    
+    private var activityIndicator = UIActivityIndicatorView()
+    
     var date = Date()
     var timer = Timer()
     private var networkManager = NetworkManager()
@@ -25,6 +28,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicator.isHidden = true //скрыли индикатор
+        activityIndicator.hidesWhenStopped = true //скрываем индикатор если его стопят
+        
+        self.tableView.contentInset = UIEdgeInsets(top: -17, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -32,16 +39,30 @@ class ViewController: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: "Cell")
         tableView.separatorStyle = .none
         
-        networkManager.performRequest { response in
-            self.profiles = response
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        loadProfiles()
 
         time()
         setupMonitor()
         checkingInternetConnection()
+        setupActivityIndicator()
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicator.style = .medium
+        activityIndicator.color = .systemGray
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+    }
+    private func loadProfiles() {
+        activityIndicator.isHidden = false // вернули индикатор
+        activityIndicator.startAnimating() // стали крутить индикатор
+        networkManager.performRequest { response in
+            self.profiles = response
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -91,6 +112,8 @@ extension ViewController {
            print("Connected")
         } else {
             self.alert(name: "Attention!", message: "There is no internet connection")
+            internenConnectionDidLost = true
+            self.activityIndicator.stopAnimating()
             internetStatusLabel.textColor = .systemGray
         }
     }
