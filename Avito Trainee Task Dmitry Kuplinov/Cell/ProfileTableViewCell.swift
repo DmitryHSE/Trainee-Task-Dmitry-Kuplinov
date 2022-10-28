@@ -9,17 +9,35 @@ import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
 
-    var profile = Profile()
+    //var profile = Profile()
     
-    @IBOutlet weak var testLabel: UILabel!
+    @IBOutlet weak var view: UIView!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var skillsLabel: UILabel!
     
     override func awakeFromNib() {
+        view.layer.cornerRadius = 10
+        
         super.awakeFromNib()
         
     }
     
     func setupCell(profile: Profile) {
-        testLabel.text = profile.name
+        
+        nameLabel.text = profile.name
+        numberLabel.text = profile.number
+        skillsLabel.text = skillsString(strings: profile.skills)
+        
+        
+    }
+    
+    func skillsString(strings: [String]) -> String {
+        var skillsString = ""
+        for i in strings {
+            skillsString = skillsString + i + ", "
+        }
+        return skillsString
     }
     
 }

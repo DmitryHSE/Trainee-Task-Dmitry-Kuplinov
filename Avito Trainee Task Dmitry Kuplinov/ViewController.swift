@@ -23,15 +23,12 @@ class ViewController: UIViewController {
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "Cell")
         let nib = UINib(nibName: "ProfileTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "Cell")
+        tableView.separatorStyle = .none
         
         networkManager.performRequest { response in
             self.profiles = response
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-            }
-            
-            for i in self.profiles {
-                //print(i)
             }
         }
 
