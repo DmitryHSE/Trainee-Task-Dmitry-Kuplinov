@@ -174,6 +174,20 @@ extension ViewController {
         let savedTime = UserDefaults.standard.object(forKey: "currentTime") as! Date
         print(savedTime)
     }
+    
+    private func cachedData(profiles: [Profile]) {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: profiles, requiringSecureCoding: false) {
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(savedData, forKey: "profiles")
+            // выгрузка
+//            if let savedData = userDefaults.object(forKey: "profiles") as? Data {
+//                if let decodedProfiles = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedData) as? [Profile] {
+//                    print(decodedProfiles)
+//                }
+//            }
+        }
+            
+    }
 }
 
 /*

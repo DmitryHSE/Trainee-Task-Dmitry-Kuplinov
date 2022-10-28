@@ -6,8 +6,9 @@
 //
 
 import Foundation
-
-struct Profile {
+ 
+struct Profile { //struct
+   
     var name: String = ""
     var number: String = ""
     var skills: [String] = []
