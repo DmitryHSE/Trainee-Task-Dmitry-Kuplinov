@@ -19,7 +19,7 @@ class ProfileTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func setupCell(profile: Profile) {
+    func setupCell(profile: UsersProfiles.Profile) {
         nameLabel.text = profile.name
         numberLabel.text = profile.number
         skillsLabel.text = skillsString(strings: profile.skills)

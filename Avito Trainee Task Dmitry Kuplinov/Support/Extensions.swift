@@ -28,10 +28,10 @@ func loadDataFromStorage(key: String, completion: @escaping([String]) -> Void) {
 
 // сортировка массива по алфавиту
 
-func sortProfilesFromAToZ(profiles: [Profile]) -> [Profile] {
+func sortProfilesFromAToZ(profiles: [UsersProfiles.Profile]) -> [UsersProfiles.Profile] {
     var initialArray = profiles
     var names = [String]()
-    var sortedProfiles = [Profile]()
+    var sortedProfiles = [UsersProfiles.Profile]()
     for (i, _) in initialArray.enumerated() {
         names.append(initialArray[i].name)
     }

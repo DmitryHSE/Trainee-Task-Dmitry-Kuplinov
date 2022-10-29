@@ -20,6 +20,7 @@
 		9FE8A9BE290BEED600AA3442 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9BD290BEED600AA3442 /* Extensions.swift */; };
 		9FE8A9C2290BF02700AA3442 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */; };
 		9FE8A9C3290BF02700AA3442 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */; };
+		9FE8A9C6290C35F600AA3442 /* CachingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8A9C5290C35F600AA3442 /* CachingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		9FE8A9BD290BEED600AA3442 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9FE8A9C0290BF02700AA3442 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		9FE8A9C1290BF02700AA3442 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
+		9FE8A9C5290C35F600AA3442 /* CachingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				9FE8A9BD290BEED600AA3442 /* Extensions.swift */,
+				9FE8A9C5290C35F600AA3442 /* CachingManager.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FE8A9A4290BEA6100AA3442 /* ViewController.swift in Sources */,
+				9FE8A9C6290C35F600AA3442 /* CachingManager.swift in Sources */,
 				9FE8A9BB290BEB4800AA3442 /* ProfileModel.swift in Sources */,
 				9FE8A9B5290BEAC200AA3442 /* NetworkMonitor.swift in Sources */,
 				9FE8A9C2290BF02700AA3442 /* ProfileTableViewCell.swift in Sources */,

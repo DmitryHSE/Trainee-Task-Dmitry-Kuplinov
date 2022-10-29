@@ -10,7 +10,7 @@ import UIKit
 
 struct NetworkManager {
     
-    func performRequest(completion: @escaping([Profile]) -> Void) {
+    func performRequest(completion: @escaping([UsersProfiles.Profile]) -> Void) {
         let urlString = "https://run.mocky.io/v3/1d1cb4ec-73db-4762-8c4b-0b8aa3cecd4c"
         if let url = URL(string: urlString){
             let session = URLSession(configuration: .default) //создаем дефолтную сессию
@@ -29,13 +29,13 @@ struct NetworkManager {
         }
     }
     
-    func parseJson(withdData data: Data) -> [Profile]? {
+    func parseJson(withdData data: Data) -> [UsersProfiles.Profile]? {
         let decoder = JSONDecoder()
         do {
             let jsonDecoded = try decoder.decode(DataModel.self, from: data)
-            var profiles = [Profile]()
+            var profiles = [UsersProfiles.Profile]()
             for i in jsonDecoded.company.employees {
-                profiles.append(Profile(profile: i)!)
+                profiles.append(UsersProfiles.Profile(profile: i)!)
             }
             
             return sortProfilesFromAToZ(profiles: profiles) // profiles

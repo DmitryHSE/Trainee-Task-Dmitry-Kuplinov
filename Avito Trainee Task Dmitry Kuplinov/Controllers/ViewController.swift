@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     var date = Date()
     var timer = Timer()
     private var networkManager = NetworkManager()
-    private var profiles = [Profile]()
+    private var profiles = [UsersProfiles.Profile]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -38,6 +38,14 @@ class ViewController: UIViewController {
         setupActivityIndicator()
         time()
         //loadSavedTime()
+        //loadedCachedData()
+        emptyCache()
+    }
+    
+    func emptyCache() {
+        let a = [UsersProfiles.Profile]()
+        cachedData(profiles: a)
+        loadedCachedData()
     }
     
     
@@ -105,6 +113,7 @@ extension ViewController {
         networkManager.performRequest { response in
             self.profiles = response
             //self.saveCurrentTime(currentTime: self.date)
+            //self.cachedData(profiles: self.profiles)  <<<<<<-----------------
             // save profiles in user defaults
             // save time + 60 min in user defaults
             DispatchQueue.main.async {
@@ -131,7 +140,7 @@ extension ViewController {
     
     private func setupNetworkingMonitor() {
         if NetworkMonitor.shared.isConnected {
-           print("Connected")
+           
         } else {
             self.alert(name: "Attention!", message: "There is no internet connection")
             internenConnectionDidLost = true
@@ -164,30 +173,9 @@ extension ViewController {
         }
     }
     
-    private func saveCurrentTime(currentTime: Date) {
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(currentTime, forKey: "currentTime")
-        print(currentTime)
-    }
     
-    private func loadSavedTime() {
-        let savedTime = UserDefaults.standard.object(forKey: "currentTime") as! Date
-        print(savedTime)
-    }
     
-    private func cachedData(profiles: [Profile]) {
-        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: profiles, requiringSecureCoding: false) {
-            let userDefaults = UserDefaults.standard
-            userDefaults.set(savedData, forKey: "profiles")
-            // выгрузка
-//            if let savedData = userDefaults.object(forKey: "profiles") as? Data {
-//                if let decodedProfiles = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedData) as? [Profile] {
-//                    print(decodedProfiles)
-//                }
-//            }
-        }
-            
-    }
+    
 }
 
 /*
