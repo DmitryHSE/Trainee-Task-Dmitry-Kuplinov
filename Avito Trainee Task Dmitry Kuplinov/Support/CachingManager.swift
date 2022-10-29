@@ -7,7 +7,7 @@
 
 import Foundation
 
-func cachedData(profiles: [UsersProfiles.Profile]) {
+func cachedData(profiles: [Profile]) {
     let userDefaults = UserDefaults.standard
     if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: profiles, requiringSecureCoding: false) {
         userDefaults.set(savedData, forKey: "profiles")
@@ -15,11 +15,11 @@ func cachedData(profiles: [UsersProfiles.Profile]) {
 }
 
 
-func loadingCachedData() -> [UsersProfiles.Profile] {
-    var data = [UsersProfiles.Profile]()
+func loadingCachedData() -> [Profile] {
+    var data = [Profile]()
     let userDefaults = UserDefaults.standard
     if let savedData = userDefaults.object(forKey: "profiles") as? Data {
-        if let decodedProfiles = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedData) as? [UsersProfiles.Profile] {
+        if let decodedProfiles = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedData) as? [Profile] {
             data = decodedProfiles
         }
     }
@@ -28,7 +28,7 @@ func loadingCachedData() -> [UsersProfiles.Profile] {
 
 
 func clearCache() {
-    let emptyArray = [UsersProfiles.Profile]()
+    let emptyArray = [Profile]()
     cachedData(profiles: emptyArray)
 }
 

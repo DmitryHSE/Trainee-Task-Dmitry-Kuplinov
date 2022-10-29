@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     private var isCacheCleared = true
     
     private var networkManager = NetworkManager()
-    private var profiles = [UsersProfiles.Profile]()
+    private var profiles = [Profile]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +33,12 @@ class ViewController: UIViewController {
         
         // methods
         setupTableView()
+        addLogoToNavigationBarItem()
         loadProfiles() 
         setupNetworkingMonitor()
         checkingInternetConnectionAndCacheTimer()
         setupActivityIndicator()
+        cahceData()
     }
 }
 
@@ -101,6 +103,18 @@ extension ViewController {
         let alertOk = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(alertOk)
         present(alertController, animated: true, completion: nil )
+    }
+    func addLogoToNavigationBarItem() {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "avito")
+        let contentView = UIView()
+        self.navigationItem.titleView = contentView
+        self.navigationItem.titleView?.addSubview(imageView)
+        imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 }
 
@@ -186,5 +200,18 @@ extension ViewController {
             internenConnectionDidLost = false
         }
     }
+    
+    func cahceData() {
+        let cache = NSCache<NSString, NSArray>()
+        if let cachedData = cache.object(forKey: "Data") as? [Profile] {
+            print(cachedData)
+        } else {
+            cache.setObject(profiles as NSArray , forKey: "Data")
+            //print(cache.object(forKey: "Data") as? [Profile])
+    
+        }
+        
+    }
+    
 }
 
