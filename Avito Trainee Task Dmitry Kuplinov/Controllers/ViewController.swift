@@ -9,21 +9,22 @@ import UIKit
 import Network
 
 class ViewController: UIViewController {
-    private var internenConnectionDidLost = false
+    
+    @IBOutlet weak var tableView: UITableView!
+    private var activityIndicator = UIActivityIndicatorView()
     private var internetStatusLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         return label
     }()
-    
-    private var activityIndicator = UIActivityIndicatorView()
-    
     var date = Date()
     var timer = Timer()
+    
+    private var internenConnectionDidLost = false
+    private var isCacheCleared = true
+    
     private var networkManager = NetworkManager()
     private var profiles = [UsersProfiles.Profile]()
-    
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,23 +33,11 @@ class ViewController: UIViewController {
         
         // methods
         setupTableView()
-        loadProfiles()
+        loadProfiles() 
         setupNetworkingMonitor()
-        checkingInternetConnection()
+        checkingInternetConnectionAndCacheTimer()
         setupActivityIndicator()
-        time()
-        //loadSavedTime()
-        //loadedCachedData()
-        emptyCache()
     }
-    
-    func emptyCache() {
-        let a = [UsersProfiles.Profile]()
-        cachedData(profiles: a)
-        loadedCachedData()
-    }
-    
-    
 }
 
 //MARK: - Table view data source
@@ -86,43 +75,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: - View controller extension
+//MARK: - View controller UI setup methods
 
 extension ViewController {
-    
-    private func setupActivityIndicator() {
-        activityIndicator.style = .medium
-        activityIndicator.color = .systemGray
-        activityIndicator.center = self.view.center
-        view.addSubview(activityIndicator)
-        
-    }
-    private func loadProfiles() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        /*
-         if saved time + 60 min < current time {
-         clear user defaults (data and time point)
-         
-         networkManager.performRequest <------
-         } else {
-         load from user defaults
-         }
-         */
-        
-        networkManager.performRequest { response in
-            self.profiles = response
-            //self.saveCurrentTime(currentTime: self.date)
-            //self.cachedData(profiles: self.profiles)  <<<<<<-----------------
-            // save profiles in user defaults
-            // save time + 60 min in user defaults
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
     
     private func setupTableView() {
         self.tableView.contentInset = UIEdgeInsets(top: -17, left: 0, bottom: 0, right: 0)
@@ -134,13 +89,64 @@ extension ViewController {
         tableView.separatorStyle = .none
     }
     
-    private func checkingInternetConnection(){
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(checkConnection), userInfo: nil, repeats: true)
+    private func setupActivityIndicator() {
+        activityIndicator.style = .medium
+        activityIndicator.color = .systemGray
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        
     }
+    private func alert(name: String, message: String) {
+        let alertController = UIAlertController(title: name, message: message, preferredStyle: .alert)
+        let alertOk = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(alertOk)
+        present(alertController, animated: true, completion: nil )
+    }
+}
+
+//MARK: - View controller fetching data setup methods
+    
+extension ViewController {
+    
+    private func loadProfiles() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        if loadingCachedData().isEmpty {
+            makeRequest()
+            print("Data was loaded from internet")
+        } else {
+            profiles = loadingCachedData()
+            self.activityIndicator.stopAnimating()
+            isCacheCleared = false
+            print("Data was loaded from cach")
+        }
+    }
+    
+    private func makeRequest() {
+        networkManager.performRequest { response in
+            self.profiles = response
+            saveCurrentTime(currentTime: self.date + 3600)
+            cachedData(profiles: self.profiles)
+            print("Data was cached")
+            self.isCacheCleared = false
+            
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.tableView.reloadData()
+                
+            }
+        }
+    }
+}
+    
+//MARK: - View controller networking monitor and cache management methods
+        
+extension ViewController {
     
     private func setupNetworkingMonitor() {
         if NetworkMonitor.shared.isConnected {
-           
+            return
         } else {
             self.alert(name: "Attention!", message: "There is no internet connection")
             internenConnectionDidLost = true
@@ -148,46 +154,37 @@ extension ViewController {
             internetStatusLabel.textColor = .systemGray
         }
     }
+    
+    private func checkingInternetConnectionAndCacheTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(selectorObservingFunc), userInfo: nil, repeats: true)
+    }
           
-    @objc func checkConnection() {
+    @objc func selectorObservingFunc() {
+        let date = Date()
+        if let savedTime = loadSavedTime() {
+            print("Cache will be cleared in \(Float(timeInterval(lhs: savedTime, rhs: date)/60)) minutes.")
+            if date >= savedTime && !isCacheCleared {
+                clearCache()
+                isCacheCleared = true
+                print("Cache was cleared")
+            }
+        }
+        
         if !NetworkMonitor.shared.isConnected {
             if !internenConnectionDidLost {
                 self.alert(name: "Attention!", message: "The internet connection has been lost")
                 internenConnectionDidLost = true
             }
-        } else {
-//            if internenConnectionDidLost {
-//                tableView.reloadData()
-//            }
+            if internenConnectionDidLost {
+                if loadingCachedData().isEmpty {
+                    makeRequest()
+                }
+            }
+        }
+        
+        if NetworkMonitor.shared.isConnected  {
             internenConnectionDidLost = false
         }
     }
-    
-    
-    func time() {
-        let now = date
-        let soon = now.addingTimeInterval(3600)
-        //print("NOW \(now) \n SOON \(soon)")
-        if soon > now {
-           // print("TIMES UP!")
-        }
-    }
-    
-    
-    
-    
 }
-
-/*
- 
- //save as Date
- UserDefaults.standard.set(Date(), forKey: key)
-
- //read
- let date = UserDefaults.standard.object(forKey: key) as! Date
- let df = DateFormatter()
- df.dateFormat = "dd/MM/yyyy HH:mm"
- print(df.string(from: date))
- 
- */
 

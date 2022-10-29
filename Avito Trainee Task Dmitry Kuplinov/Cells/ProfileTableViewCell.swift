@@ -15,7 +15,7 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var skillsLabel: UILabel!
     
     override func awakeFromNib() {
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 15
         super.awakeFromNib()
     }
     
@@ -27,7 +27,7 @@ class ProfileTableViewCell: UITableViewCell {
         
     }
     
-    func skillsString(strings: [String]) -> String {
+    private func skillsString(strings: [String]) -> String {
         var skillsString = ""
         for i in strings {
             skillsString = skillsString + i + ", "

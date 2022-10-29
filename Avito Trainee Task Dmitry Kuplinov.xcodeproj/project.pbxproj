@@ -100,8 +100,8 @@
 		9FE8A9BC290BEEC600AA3442 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				9FE8A9BD290BEED600AA3442 /* Extensions.swift */,
 				9FE8A9C5290C35F600AA3442 /* CachingManager.swift */,
+				9FE8A9BD290BEED600AA3442 /* Extensions.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";

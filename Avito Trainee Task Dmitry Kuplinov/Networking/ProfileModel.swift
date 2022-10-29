@@ -16,7 +16,6 @@ class UsersProfiles: NSObject, NSCoding {
     required init?(coder: NSCoder) {
         profiles = coder.decodeObject(forKey: "profiles") as? [UsersProfiles.Profile] ?? []
     }
-    //struct
     
     @objc(_TtCC34Avito_Trainee_Task_Dmitry_Kuplinov13UsersProfiles7Profile)class Profile: NSObject, NSCoding {
         func encode(with coder: NSCoder) {
@@ -47,9 +46,7 @@ class UsersProfiles: NSObject, NSCoding {
     init(profiles: [Profile]) {
         self.profiles = profiles
     }
-    //    init() {
-    //
-    //    }
+    
 }
 
 

@@ -7,18 +7,6 @@
 
 import UIKit
 
-
-extension UIViewController {
-    
-    func alert(name: String, message: String) {
-        let alertController = UIAlertController(title: name, message: message, preferredStyle: .alert)
-        let alertOk = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(alertOk)
-        present(alertController, animated: true, completion: nil )
-    }
-}
-
-
 func loadDataFromStorage(key: String, completion: @escaping([String]) -> Void) {
     let defaults = UserDefaults.standard
     if let array = defaults.stringArray(forKey: key) {
@@ -27,7 +15,6 @@ func loadDataFromStorage(key: String, completion: @escaping([String]) -> Void) {
 }
 
 // сортировка массива по алфавиту
-
 func sortProfilesFromAToZ(profiles: [UsersProfiles.Profile]) -> [UsersProfiles.Profile] {
     var initialArray = profiles
     var names = [String]()
@@ -44,3 +31,9 @@ func sortProfilesFromAToZ(profiles: [UsersProfiles.Profile]) -> [UsersProfiles.P
     }
     return sortedProfiles
 }
+
+func timeInterval(lhs: Date, rhs: Date) -> TimeInterval {
+    return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+}
+
+
