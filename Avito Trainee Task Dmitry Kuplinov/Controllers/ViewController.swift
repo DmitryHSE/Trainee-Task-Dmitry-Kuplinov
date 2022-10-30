@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     var date = Date()
     var timer = Timer()
     
-    private var internenConnectionDidLost = false
+    private var internetConnectionDidLost = false
     private var isCacheCleared = true
     
     private var networkManager = NetworkManager()
@@ -38,7 +38,6 @@ class ViewController: UIViewController {
         setupNetworkingMonitor()
         checkingInternetConnectionAndCacheTimer()
         setupActivityIndicator()
-        cahceData()
     }
 }
 
@@ -126,6 +125,14 @@ extension ViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
+        if let loadedTime = loadSavedTime() {
+            if date >= loadedTime {
+                clearCache()
+                isCacheCleared = true
+                print("Cache was cleared after launch")
+            }
+        }
+        
         if loadingCachedData().isEmpty {
             makeRequest()
             print("Data was loaded from internet")
@@ -133,7 +140,7 @@ extension ViewController {
             profiles = loadingCachedData()
             self.activityIndicator.stopAnimating()
             isCacheCleared = false
-            print("Data was loaded from cach")
+            print("Data was loaded from cache")
         }
     }
     
@@ -163,7 +170,7 @@ extension ViewController {
             return
         } else {
             self.alert(name: "Attention!", message: "There is no internet connection")
-            internenConnectionDidLost = true
+            internetConnectionDidLost = true
             self.activityIndicator.stopAnimating()
             internetStatusLabel.textColor = .systemGray
         }
@@ -185,11 +192,11 @@ extension ViewController {
         }
         
         if !NetworkMonitor.shared.isConnected {
-            if !internenConnectionDidLost {
+            if !internetConnectionDidLost {
                 self.alert(name: "Attention!", message: "The internet connection has been lost")
-                internenConnectionDidLost = true
+                internetConnectionDidLost = true
             }
-            if internenConnectionDidLost {
+            if internetConnectionDidLost {
                 if loadingCachedData().isEmpty {
                     makeRequest()
                 }
@@ -197,21 +204,8 @@ extension ViewController {
         }
         
         if NetworkMonitor.shared.isConnected  {
-            internenConnectionDidLost = false
+            internetConnectionDidLost = false
         }
     }
-    
-    func cahceData() {
-        let cache = NSCache<NSString, NSArray>()
-        if let cachedData = cache.object(forKey: "Data") as? [Profile] {
-            print(cachedData)
-        } else {
-            cache.setObject(profiles as NSArray , forKey: "Data")
-            //print(cache.object(forKey: "Data") as? [Profile])
-    
-        }
-        
-    }
-    
 }
 

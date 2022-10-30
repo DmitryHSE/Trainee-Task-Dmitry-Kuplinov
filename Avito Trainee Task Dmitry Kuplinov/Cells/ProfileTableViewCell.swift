@@ -23,8 +23,6 @@ class ProfileTableViewCell: UITableViewCell {
         nameLabel.text = profile.name
         numberLabel.text = profile.number
         skillsLabel.text = skillsString(strings: profile.skills)
-        
-        
     }
     
     private func skillsString(strings: [String]) -> String {

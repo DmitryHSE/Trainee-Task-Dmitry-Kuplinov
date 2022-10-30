@@ -38,9 +38,9 @@ final class NetworkMonitor {
         }
     }
     
-    public func stopMonitoring() {
-        monitor.cancel()
-    }
+//    public func stopMonitoring() {
+//        monitor.cancel()
+//    }
     
     private func getConnectionType(_ path: NWPath) {
         if path.usesInterfaceType(.wifi) {
@@ -53,5 +53,4 @@ final class NetworkMonitor {
             connectionType = .unknown
         }
     }
-    
 }
