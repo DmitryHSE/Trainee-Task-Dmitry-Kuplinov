@@ -1,4 +1,4 @@
-# Avito-Trainee-Task-Dmitry-Kuplinov
+#Trainee-Task-Dmitry-Kuplinov
 Тестовое задание на стажировку в Авито
 
 В папке с проектом находится 2 записи с экрана:
