@@ -12,7 +12,6 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var skillsLabel: UILabel!
     @IBOutlet weak var skillsTextView: UITextView!
     
     override func awakeFromNib() {
@@ -30,8 +29,8 @@ class ProfileTableViewCell: UITableViewCell {
     
     private func skillsString(strings: [String]) -> String {
         var skillsString = ""
-        for i in strings {
-            skillsString = skillsString + i + ", "
+        for i in strings{
+            skillsString = skillsString + i + ",\n"
         }
         skillsString.removeLast()
         skillsString.removeLast()
