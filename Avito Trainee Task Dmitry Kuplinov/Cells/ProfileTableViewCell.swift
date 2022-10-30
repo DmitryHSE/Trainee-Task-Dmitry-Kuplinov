@@ -13,16 +13,19 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var skillsLabel: UILabel!
+    @IBOutlet weak var skillsTextView: UITextView!
     
     override func awakeFromNib() {
         view.layer.cornerRadius = 15
+        skillsTextView.layer.cornerRadius = 10
+        self.selectionStyle = .none
         super.awakeFromNib()
     }
     
     func setupCell(profile: Profile) {
         nameLabel.text = profile.name
         numberLabel.text = profile.number
-        skillsLabel.text = skillsString(strings: profile.skills)
+        skillsTextView.text = skillsString(strings: profile.skills)
     }
     
     private func skillsString(strings: [String]) -> String {

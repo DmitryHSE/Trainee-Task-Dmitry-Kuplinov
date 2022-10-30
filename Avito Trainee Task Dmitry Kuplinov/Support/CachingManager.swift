@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: - Saving and loading data
+
 func cachedData(profiles: [Profile]) {
     let userDefaults = UserDefaults.standard
     if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: profiles, requiringSecureCoding: false) {

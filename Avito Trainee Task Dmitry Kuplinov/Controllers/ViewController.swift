@@ -80,6 +80,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController {
     
+    // configure table view
     private func setupTableView() {
         self.tableView.contentInset = UIEdgeInsets(top: -17, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
@@ -90,6 +91,7 @@ extension ViewController {
         tableView.separatorStyle = .none
     }
     
+    // configure activity indicator
     private func setupActivityIndicator() {
         activityIndicator.style = .medium
         activityIndicator.color = .systemGray
@@ -97,13 +99,16 @@ extension ViewController {
         view.addSubview(activityIndicator)
         
     }
+    // configure alert
     private func alert(name: String, message: String) {
         let alertController = UIAlertController(title: name, message: message, preferredStyle: .alert)
         let alertOk = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(alertOk)
         present(alertController, animated: true, completion: nil )
     }
-    func addLogoToNavigationBarItem() {
+    
+    // put avito logo on nav bar
+    private func addLogoToNavigationBarItem() {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -121,6 +126,7 @@ extension ViewController {
     
 extension ViewController {
     
+    // load the array with Profiles according conditions
     private func loadProfiles() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -144,6 +150,7 @@ extension ViewController {
         }
     }
     
+    // request data from api, then cach it and save exact time for timer
     private func makeRequest() {
         networkManager.performRequest { response in
             self.profiles = response
@@ -165,6 +172,7 @@ extension ViewController {
         
 extension ViewController {
     
+    // checking connection status in first launch
     private func setupNetworkingMonitor() {
         if NetworkMonitor.shared.isConnected {
             return
@@ -176,14 +184,18 @@ extension ViewController {
         }
     }
     
+    // checking connection status during the work
     private func checkingInternetConnectionAndCacheTimer(){
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(selectorObservingFunc), userInfo: nil, repeats: true)
     }
-          
+    
+    // calls the alert and cleaning cache if proper conditions
     @objc func selectorObservingFunc() {
         let date = Date()
         if let savedTime = loadSavedTime() {
-            print("Cache will be cleared in \(Float(timeInterval(lhs: savedTime, rhs: date)/60)) minutes.")
+            if savedTime > date {
+                print("Cache will be cleared in \(Float(timeInterval(lhs: savedTime, rhs: date)/60)) minutes.")
+            }
             if date >= savedTime && !isCacheCleared {
                 clearCache()
                 isCacheCleared = true

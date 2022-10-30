@@ -7,14 +7,7 @@
 
 import UIKit
 
-func loadDataFromStorage(key: String, completion: @escaping([String]) -> Void) {
-    let defaults = UserDefaults.standard
-    if let array = defaults.stringArray(forKey: key) {
-     completion(array)
-    }
-}
-
-// сортировка массива по алфавиту
+// sort array from A to Z
 func sortProfilesFromAToZ(profiles: [Profile]) -> [Profile] {
     var initialArray = profiles
     var names = [String]()
