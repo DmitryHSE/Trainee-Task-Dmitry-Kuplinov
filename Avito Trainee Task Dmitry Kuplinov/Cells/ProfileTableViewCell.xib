@@ -33,8 +33,8 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Swift" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufM-1O-F6h">
-                                        <rect key="frame" x="174" y="0.0" width="163" height="40"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" editable="NO" text="Swift" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufM-1O-F6h">
+                                        <rect key="frame" x="174" y="0.0" width="163" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" red="0.83529411764705885" green="0.87781393807523" blue="0.92983693477390961" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <color key="textColor" systemColor="labelColor"/>

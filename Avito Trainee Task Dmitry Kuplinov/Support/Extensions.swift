@@ -29,4 +29,11 @@ func timeInterval(lhs: Date, rhs: Date) -> TimeInterval {
     return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
 }
 
+// configure alert
+func showAlert(view: UIViewController, name: String, message: String) {
+    let alertController = UIAlertController(title: name, message: message, preferredStyle: .alert)
+    let alertOk = UIAlertAction(title: "OK", style: .default)
+    alertController.addAction(alertOk)
+    view.present(alertController, animated: true, completion: nil )
+}
 

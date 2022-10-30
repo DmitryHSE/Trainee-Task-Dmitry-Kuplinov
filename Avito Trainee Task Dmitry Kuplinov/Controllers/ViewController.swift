@@ -26,6 +26,11 @@ class ViewController: UIViewController {
     private var networkManager = NetworkManager()
     private var profiles = [Profile]()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableViewAnimation()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
@@ -91,20 +96,31 @@ extension ViewController {
         tableView.separatorStyle = .none
     }
     
+    // table view show up animation
+    private func tableViewAnimation() {
+        tableView.reloadData()
+        let cells = tableView.visibleCells
+        let tableViewHeight = tableView.bounds.height
+        var delay = 0.0
+        for cell in cells {
+            cell.transform = CGAffineTransform(translationX: 0, y: tableViewHeight)
+            UIView.animate(withDuration: 1.2,
+                           delay: delay * 0.05,
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0,
+                           options: .curveEaseInOut,
+                           animations: { cell.transform = CGAffineTransform.identity },
+                           completion: nil)
+            delay += 1
+        }
+    }
+    
     // configure activity indicator
     private func setupActivityIndicator() {
         activityIndicator.style = .medium
         activityIndicator.color = .systemGray
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
-        
-    }
-    // configure alert
-    private func alert(name: String, message: String) {
-        let alertController = UIAlertController(title: name, message: message, preferredStyle: .alert)
-        let alertOk = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(alertOk)
-        present(alertController, animated: true, completion: nil )
     }
     
     // put avito logo on nav bar
@@ -161,7 +177,8 @@ extension ViewController {
             
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
+                self.tableViewAnimation()
                 
             }
         }
@@ -177,7 +194,7 @@ extension ViewController {
         if NetworkMonitor.shared.isConnected {
             return
         } else {
-            self.alert(name: "Attention!", message: "There is no internet connection")
+            showAlert(view: self, name: "Attention!", message: "There is no internet connection")
             internetConnectionDidLost = true
             self.activityIndicator.stopAnimating()
             internetStatusLabel.textColor = .systemGray
@@ -205,7 +222,7 @@ extension ViewController {
         
         if !NetworkMonitor.shared.isConnected {
             if !internetConnectionDidLost {
-                self.alert(name: "Attention!", message: "The internet connection has been lost")
+                showAlert(view: self, name: "Attention!", message: "The internet connection has been lost")
                 internetConnectionDidLost = true
             }
             if internetConnectionDidLost {
