@@ -20,3 +20,23 @@
  - Для отображения списка используется UITableView, либо UICollectionView
  - Для запроса данных используется URLSession
 
+## Обзор приложения
+
+<table>
+    <thead>
+        <tr>
+            <th>Первый запуск</th>
+            <th>Потеря соединения</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img width="250" src="Resources/MainScreen.gif">
+            </td>
+            <td>
+                <img width="250" src="Resources/LostConnection.gif">
+            </td>
+        </tr>
+    </tbody>
+</table>
